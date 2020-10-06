@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="C++"
+            android:textSize="30dp"
+            android:background="#EDEDED"
+            />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:text="JAVA"
+            android:textSize="30dp"/>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:text="DS"
+            android:textSize="30dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="PYTHONA"
+            android:textSize="30dp"/>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:text="JSP"
+            android:textSize="30dp"/>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:text="PHP"
+            android:textSize="30dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_main"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="490dp"
+            android:textSize="25dp"
+            android:text="메인" />
+
+        <Button
+            android:id="@+id/btn_category"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="490dp"
+            android:textSize="20dp"
+            android:text="카테고리"
+            />
+
+        <Button
+            android:id="@+id/btn_chatting"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="490dp"
+            android:textSize="25dp"
+            android:text="채팅"
+            />
+
+        <Button
+            android:id="@+id/btn_my"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="490dp"
+            android:textSize="25dp"
+            android:text="나"
+            />
+    </LinearLayout>
+
+</LinearLayout>

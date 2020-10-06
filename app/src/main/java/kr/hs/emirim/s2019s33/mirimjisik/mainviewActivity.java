@@ -25,6 +25,7 @@ public class mainviewActivity extends AppCompatActivity {
         Button btnChatting=(Button)findViewById(R.id.btn_chatting);
         Button btnCategory=(Button)findViewById(R.id.btn_category);
         Button btnMy=(Button)findViewById(R.id.btn_my);
+        Button inputQ = (Button) findViewById(R.id.inputquestion);
 
         btnCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +45,13 @@ public class mainviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mainviewActivity.this, questionActivity.class);
+                startActivity(intent);
+            }
+        });
+        inputQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mainviewActivity.this, inputquestion_Activity.class);
                 startActivity(intent);
             }
         });

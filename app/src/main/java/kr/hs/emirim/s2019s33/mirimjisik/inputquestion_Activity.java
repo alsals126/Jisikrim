@@ -16,40 +16,29 @@ public class inputquestion_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inputquestion_layout);
 
-//        String[] FreshmanSubjects = {"C","정보처리와 관리","JAVA","DB"};
-//        String[] SecondSubjects = {"자료구조","C++","JAVA","JSP","PHP","Python"};
-//        String[] ThirdSubjects = {"데이터베이스프로그래밍","서버구축 및 운영","뉴미디어콘텐츠프로그래밍",
-//                                "jsp응용","node.js","정보보안","운영체제"};
-//        Spinner spinner = (Spinner) findViewById(R.id.subjects);
-//        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, R.layout.inputquestion_layout, FreshmanSubjects);
-//
-//        // 라디오그룹으로 무엇이 선택되었는지
-//        RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
-//        RadioButton rd = (RadioButton) findViewById(rg.getCheckedRadioButtonId());
-//        String str = rd.toString();
-//
-//        switch (str){
-//            case "Freshman":
-//                adapter = new ArrayAdapter<CharSequence>(this, R.layout.inputquestion_layout, FreshmanSubjects);
-////                adapter = ArrayAdapter.createFromResource(this, R.array.FreshmanSubjects, R.layout.inputquestion_layout);
-//            case "Sophomore":
-//                adapter = new ArrayAdapter<CharSequence>(this, R.layout.inputquestion_layout, SecondSubjects);
-////                adapter = ArrayAdapter.createFromResource(this, R.array.SecondSubjects, R.layout.inputquestion_layout);
-//            case "Junior":
-//                adapter = new ArrayAdapter<CharSequence>(this, R.layout.inputquestion_layout, ThirdSubjects);
-////                adapter = ArrayAdapter.createFromResource(this, R.array.ThirdnSubjects, R.layout.inputquestion_layout);
-//        }
-//
-//        spinner.setAdapter(adapter);
-        Spinner spinner = (Spinner) findViewById(R.id.subjects);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.FreshmanSubjects, R.layout.inputquestion_layout
-        );
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
 
-    //https://m.blog.naver.com/PostView.nhn?blogId=netrance&logNo=110132582458&proxyReferer=https:%2F%2Fwww.google.com%2F
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int result;
+                Spinner spinner = (Spinner) findViewById(R.id.subjects);
+                ArrayAdapter<CharSequence> adapter;
 
+                if(checkedId == R.id.Sophomore)
+                    result = R.array.SecondSubjects;
+                else if(checkedId == R.id.Junior)
+                    result = R.array.ThirdnSubjects;
+                else
+                    result = R.array.FreshmanSubjects;
+
+                adapter= ArrayAdapter.createFromResource(
+                        getApplicationContext(), result, android.R.layout.simple_spinner_item
+                );
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+            }
+        });
 
     }
 }

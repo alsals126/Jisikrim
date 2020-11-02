@@ -21,7 +21,6 @@
         </activity>
         <activity android:name=".mainviewActivity" />
         <activity android:name=".questionActivity" />
-        <activity android:name=".membership" />
         <activity android:name=".chatting" />
         <activity android:name=".category" />
     </application>

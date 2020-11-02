@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-/*public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,membership.class);
+                Intent intent=new Intent(MainActivity.this,signup.class);
                 startActivity(intent);
             }
         });
@@ -37,9 +37,10 @@ import com.google.firebase.database.FirebaseDatabase;
         });
     }
 
-}*/
+}
 
 // 데이터베이스 연결 확인
+/*
 public class MainActivity extends AppCompatActivity {
 
     private Button sendbt;
@@ -61,4 +62,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-}
+}*/

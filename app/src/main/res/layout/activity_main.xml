@@ -22,7 +22,7 @@
             android:src="@drawable/rogo"/>
 
         <EditText
-            android:id="@+id/edit_email"
+            android:id="@+id/text_email"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="55dp"
@@ -43,7 +43,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_loginAct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="110dp"
@@ -51,7 +51,7 @@
                 android:text="로그인" />
 
             <Button
-                android:id="@+id/btn_new"
+                android:id="@+id/btn_signupAct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

@@ -5,35 +5,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /*import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;*/
 
-public class MainActivity extends AppCompatActivity {
+public class basic extends AppCompatActivity {
 
     private FragmentManager fragmentManager=getSupportFragmentManager();
-    private mainviewActivity mainLayout=new mainviewActivity(); //홈
-    private questionActivity myLayout=new questionActivity(); //my
-    private category Category=new category(); //카테고리
-    private chatting Chatting=new chatting(); //채팅
+    private home homeLayout=new home(); //홈
+    private my myLayout=new my(); //my
+    private search search =new search(); //카테고리
+    private chat chat =new chat(); //채팅
     //private login Login=new login(); //로그인 시작화면
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_layout);
+        setContentView(R.layout.basic_layout);
 
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomLayout);
         //첫 화면 지정
         FragmentTransaction transaction=fragmentManager.beginTransaction();
-        transaction.replace(R.id.mainFrame,mainLayout).commitAllowingStateLoss();
+        transaction.replace(R.id.mainFrame,homeLayout).commitAllowingStateLoss();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -41,15 +38,15 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction=fragmentManager.beginTransaction();
                 switch (menuItem.getItemId()){
                     case R.id.action_home:{
-                        transaction.replace(R.id.mainFrame,mainLayout).commitAllowingStateLoss();
+                        transaction.replace(R.id.mainFrame,homeLayout).commitAllowingStateLoss();
                         break;
                     }
                     case R.id.action_search:{
-                        transaction.replace(R.id.mainFrame,Category).commitAllowingStateLoss();
+                        transaction.replace(R.id.mainFrame, search).commitAllowingStateLoss();
                         break;
                     }
                     case R.id.action_chat:{
-                        transaction.replace(R.id.mainFrame,Chatting).commitAllowingStateLoss();
+                        transaction.replace(R.id.mainFrame, chat).commitAllowingStateLoss();
                         break;
                     }
                     case R.id.action_my:{

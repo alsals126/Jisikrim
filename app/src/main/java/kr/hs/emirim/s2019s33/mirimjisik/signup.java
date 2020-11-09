@@ -26,7 +26,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup);
+        setContentView(R.layout.activity_signup);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -54,7 +54,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener{
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(signup.this, "회원가입에 성공했습니다.",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), basic.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             // 에러종류 구분하기

@@ -10,20 +10,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".inputquestion_Activity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".login"></activity>
+        <activity android:name=".inputquestion_Activity" />
+        <activity android:name=".basic">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mainviewActivity"
-            tools:ignore="Instantiatable" />
-        <activity android:name=".questionActivity" />
+        <!--<activity
+            android:name=".mainviewActivity"
+            tools:ignore="Instantiatable" />-->
+        <activity android:name=".my" />
         <activity android:name=".signup" />
-        <activity android:name=".chatting" />
-        <activity android:name=".category" />
+        <activity android:name=".chat" />
+        <activity android:name=".search" />
     </application>
 
 </manifest>

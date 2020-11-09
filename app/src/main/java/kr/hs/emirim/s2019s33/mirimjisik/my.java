@@ -2,28 +2,20 @@ package kr.hs.emirim.s2019s33.mirimjisik;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 //import android.content.Intent;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 //import android.widget.Button;
 
-import java.util.ArrayList;
 
-public class questionActivity extends Fragment {
+public class my extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.my_layout, container, false);
+        return inflater.inflate(R.layout.activity_my, container, false);
     }
 
 //    RecyclerView mRecyclerView = null ;

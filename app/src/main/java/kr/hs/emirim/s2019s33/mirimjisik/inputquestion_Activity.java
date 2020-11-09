@@ -26,7 +26,7 @@ public class inputquestion_Activity extends AppCompatActivity {
         inputB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(inputquestion_Activity.this, questionActivity.class);
+                Intent intent=new Intent(inputquestion_Activity.this, my.class);
                 startActivity(intent);
             }
         });

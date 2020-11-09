@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,74 +8,89 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <Spinner
-        android:id="@+id/gradeSpinner"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="261dp"
-        android:layout_marginRight="261dp"
-        android:entries="@array/grade"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></Spinner>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainRecyclerview"
+
+  <!--  <LinearLayout
+        android:id="@+id/toolbar_division"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
-        android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gradeSpinner" />
+        android:layout_height="1dp"
+        android:background="#C3C3C3"
+        android:layout_below="@id/bar"/>-->
+
+    <FrameLayout
+        android:id="@+id/mainFrame"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        >
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/mainRecyclerview"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scrollbars="vertical"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+    </FrameLayout>
 
     <LinearLayout
-        android:layout_width="412dp"
-        android:layout_height="64dp"
+        android:id="@+id/nav_division"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainRecyclerview">
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C3C3C3"
+        android:layout_below="@id/mainFrame"/>
 
-        <Button
-            android:id="@+id/btn_main"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Main" />
-
-        <Button
-            android:id="@+id/btn_category"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Category" />
-
-        <Button
-            android:id="@+id/btn_chatting"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Chat" />
-
-        <Button
-            android:id="@+id/btn_my"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="MY" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/inputquestion"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomLayout"
+        android:layout_below="@id/mainFrame"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="171dp"
-        android:layout_marginLeft="171dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:text="질문등록"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/gradeSpinner"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        android:background="@color/cardview_light_background"
+        app:itemBackground="@color/cardview_light_background"
+        app:menu="@menu/buttom_navigation_main">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="412dp"-->
+<!--        android:layout_height="64dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/mainRecyclerview">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_main"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Main" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_category"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Category" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_chatting"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Chat" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_my"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="MY" />-->
+<!--    </LinearLayout>-->
+
+</RelativeLayout>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="kr.hs.emirim.s2019s33.mirimjisik">
-
-    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -19,11 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mainviewActivity" />
+        <activity android:name=".mainviewActivity"
+            tools:ignore="Instantiatable" />
         <activity android:name=".questionActivity" />
+        <activity android:name=".signup" />
         <activity android:name=".chatting" />
         <activity android:name=".category" />
-        <activity android:name=".signup" />
     </application>
 
 </manifest>

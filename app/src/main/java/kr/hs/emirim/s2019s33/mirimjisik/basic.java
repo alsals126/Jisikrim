@@ -1,5 +1,5 @@
 package kr.hs.emirim.s2019s33.mirimjisik;
-//로그인 화면
+//기본 틀
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;

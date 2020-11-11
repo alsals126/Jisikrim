@@ -1,10 +1,12 @@
 package kr.hs.emirim.s2019s33.mirimjisik;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class signup extends AppCompatActivity implements View.OnClickListener{
@@ -44,6 +47,9 @@ public class signup extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void createAccount(String email, String password){
+        final ProgressDialog mDialog = new ProgressDialog(signup.this);
+        mDialog.setMessage("가입중입니다...");
+        mDialog.show();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
@@ -51,13 +57,19 @@ public class signup extends AppCompatActivity implements View.OnClickListener{
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            mDialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(signup.this, "회원가입에 성공했습니다.",Toast.LENGTH_LONG).show();
                             startActivity(new Intent(getApplicationContext(), basic.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             // 에러종류 구분하기
-                            Toast.makeText(signup.this, "관리자에게 문의하세요",Toast.LENGTH_LONG).show();
+                            mDialog.dismiss();
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(signup.this, "이미 존재하는 Email입니다.",Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(signup.this, "관리자에게 문의하세요",Toast.LENGTH_LONG).show();
+                            }
                             /*Toast.makeText(signup.this, "에러유형\n - 이미 등록된 이메일\n -암호 최소 6자리 이상\n - 서버에러",
                                     Toast.LENGTH_SHORT).show();*/
                         }
@@ -77,6 +89,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener{
                 check=true;
             }else{
                 Toast.makeText(signup.this, "미림 계정을 사용해주세요.",Toast.LENGTH_LONG).show();
+                System.out.checkError();
             }
         }
         if(i == R.id.btn_Signup){

@@ -7,11 +7,11 @@ public class QuestionList {
     private String name1;
     private String name2;
 
-//    //생성자메소드
-//    public QuestionList(String name1, String name2){
-//        this.name1 = name1;
-//        this.name2 = name2;
-//    }
+    //생성자메소드
+    public QuestionList(String name1, String name2){
+        this.name1 = name1;
+        this.name2 = name2;
+    }
 
     //getter & setter
     public Drawable getDrawable(){
@@ -21,7 +21,7 @@ public class QuestionList {
         return this.name1;
     }
     public String getName2(){
-        return this.name2;
+        System.out.print("get" + this.name2);return this.name2;
     }
     public void setDrawable(Drawable drawable){
         this.drawable = drawable;
@@ -30,6 +30,7 @@ public class QuestionList {
         this.name1 = name1;
     }
     public void setName2(String desc){
+        System.out.print("set" + this.name2);
         this.name2 = name2;
     }
 }

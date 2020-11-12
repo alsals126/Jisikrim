@@ -2,20 +2,75 @@ package kr.hs.emirim.s2019s33.mirimjisik;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 //import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import java.util.ArrayList;
 //import android.widget.Button;
 
 
 public class my extends Fragment {
+    RecyclerView mRecyclerView = null ;
+    QuestionListAdapter mAdapter = null ;
+    ArrayList<QuestionList> mList = new ArrayList<QuestionList>();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_my, container, false);
+        View v = inflater.inflate(R.layout.activity_my, container, false);
+
+        mRecyclerView = v.findViewById(R.id.my_recycler_view) ;
+
+        // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
+        mAdapter = new QuestionListAdapter(mList) ;
+        mRecyclerView.setAdapter(mAdapter) ;
+
+        // 리사이클러뷰에 LinearLayoutManager 지정. (vertical)
+        RecyclerView recyclerView = v.findViewById(R.id.my_recycler_view) ;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())) ;
+
+        // 아이템 추가.
+        addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.deldel),
+                "Box", "Account Box Black 36dp") ;
+        // 두 번째 아이템 추가.
+        addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.deldel),
+                "Circle", "Account Circle Black 36dp") ;
+        // 세 번째 아이템 추가.
+        addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.rogo),
+                "Ind", "Assignment Ind Black 36dp") ;
+        addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.rogo),
+                "last", "난 몰랑!") ;
+
+        mAdapter.notifyDataSetChanged() ;
+
+        return v;
+    }
+    public void plz(){
+
+    }
+    public void addItem(Drawable icon, String title, String desc) {
+        QuestionList item = new QuestionList(title, desc);
+
+        item.setDrawable(icon);
+        item.setName1(title);
+        System.out.print(item.getName1());
+        item.setName2(desc);
+
+        mList.add(item);
     }
 
 //    RecyclerView mRecyclerView = null ;

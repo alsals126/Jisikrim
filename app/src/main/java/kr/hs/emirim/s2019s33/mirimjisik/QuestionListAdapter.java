@@ -43,6 +43,8 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         holder.icon.setImageDrawable(item.getDrawable()) ;
         holder.title.setText(item.getName1()) ;
         holder.desc.setText(item.getName2()) ;
+
+        System.out.println("안녕" + item.getName1());
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

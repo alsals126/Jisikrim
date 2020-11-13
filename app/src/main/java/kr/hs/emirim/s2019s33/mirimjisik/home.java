@@ -1,9 +1,11 @@
 package kr.hs.emirim.s2019s33.mirimjisik;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +18,17 @@ public class home extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_home, container, false);
 
-        return inflater.inflate(R.layout.activity_home, container, false);
+        Button inputQ = (Button)v.findViewById(R.id.inputquestion);
+        inputQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View vi) {
+                Intent intent = new Intent(getActivity(), inputquestion_Activity.class);
+                startActivity(intent);
+            }
+        });
+        return v;
 
     }
 //    RecyclerView mRecyclerView = null ;

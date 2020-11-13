@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="55dp"
             android:layout_marginTop="70dp"
+            android:inputType="textEmailAddress"
             android:hint="이메일을 입력하세요." />
 
         <EditText
@@ -35,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="55dp"
             android:layout_marginTop="20dp"
+            android:inputType="textPassword"
             android:hint="비밀번호를 입력하세요." />
 
         <LinearLayout

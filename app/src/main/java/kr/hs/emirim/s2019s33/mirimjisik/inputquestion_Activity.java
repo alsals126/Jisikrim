@@ -44,6 +44,7 @@ public class inputquestion_Activity extends AppCompatActivity {
     private static final String TAG = "inputquestion_Activity";
     private FirebaseUser user;
     private ImageView imageView;
+    private Spinner spinner;
 //    private EditText textTitle, textContent;
     private RadioGroup rg;
     Button inputB;
@@ -58,6 +59,7 @@ public class inputquestion_Activity extends AppCompatActivity {
 //        // 초기화
 //        textTitle = (EditText)findViewById(R.id.editText);
         rg = findViewById(R.id.radioGroup);
+        spinner = findViewById(R.id.subjects);
 
         imageView = (ImageView) findViewById(R.id.imageView);
 //        textContent = (EditText) findViewById(R.id.edit_content);
@@ -68,7 +70,6 @@ public class inputquestion_Activity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int result;
-                Spinner spinner = findViewById(R.id.subjects);
 
                 ArrayAdapter<CharSequence> adapter;
 
@@ -193,20 +194,22 @@ public class inputquestion_Activity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.inputButton:
-                    profileUpdate();
+                    ReadyUpload();
                     break;
             }
         }
     };
-    private void profileUpdate() {
+    private void ReadyUpload() {
         String textTitle = ((EditText) findViewById(R.id.editText)).getText().toString();
-        String textContent = ((EditText) findViewById(R.id.edit_content)).getText().toString();
         RadioButton rd = (RadioButton)findViewById(rg.getCheckedRadioButtonId());
         String grade = rd.getText().toString();
+        String subject = spinner.getSelectedItem().toString();
+        String textContent = ((EditText) findViewById(R.id.edit_content)).getText().toString();
+
 
         if (textTitle.length() > 0 && textContent.length() > 0) {
             user = FirebaseAuth.getInstance().getCurrentUser();
-            WriteInfo writeInfo = new WriteInfo(textTitle, grade, textContent, user.getUid());
+            WriteInfo writeInfo = new WriteInfo(textTitle, grade, subject, textContent, user.getUid());
             uploader(writeInfo);
         } else {
             Toast.makeText(this, "회원정보를 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -232,12 +235,14 @@ public class inputquestion_Activity extends AppCompatActivity {
 class WriteInfo {
     private String title;
     private String grade;
+    private String subject;
     private String contents;
     private String publisher;
 
-    public WriteInfo(String title, String grade, String contents, String publisher){
+    public WriteInfo(String title, String grade, String subject, String contents, String publisher){
         this.title = title;
         this.grade = grade;
+        this.subject = subject;
         this.contents = contents;
         this.publisher = publisher;
     }
@@ -253,6 +258,12 @@ class WriteInfo {
     }
     public void setGrade(String grade){
         this.grade = grade;
+    }
+    public String getSubject(){
+        return this.subject;
+    }
+    public void setSubject(String subject){
+        this.grade = subject;
     }
     public String getContents(){
         return this.contents;

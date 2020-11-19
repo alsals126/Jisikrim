@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,28 +15,16 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Exclude;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 public class inputquestion_Activity extends AppCompatActivity {
 
@@ -45,24 +32,17 @@ public class inputquestion_Activity extends AppCompatActivity {
     private FirebaseUser user;
     private ImageView imageView;
     private Spinner spinner;
-//    private EditText textTitle, textContent;
     private RadioGroup rg;
     Button inputB;
-//    int grade;
-//    String subject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inputquestion_layout);
 
-//        // 초기화
-//        textTitle = (EditText)findViewById(R.id.editText);
         rg = findViewById(R.id.radioGroup);
         spinner = findViewById(R.id.subjects);
-
         imageView = (ImageView) findViewById(R.id.imageView);
-//        textContent = (EditText) findViewById(R.id.edit_content);
         inputB = (Button) findViewById(R.id.inputButton);
 
         //라디오버튼
@@ -102,73 +82,6 @@ public class inputquestion_Activity extends AppCompatActivity {
         });
 
         inputB.setOnClickListener(onClickListener);
-
-        /*Board b = new Board(textTitle.getText().toString(), grade, subject, textContent.getText().toString());*/
-        /*b.toMap();*/
-        // db에 넣기
-    /*    final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> user = new HashMap<>();
-        user.put("title", textTitle.getText().toString());
-        user.put("last","sibal");
-        user.put("born", 1815);*/
-
-    /*    db.collection("users").add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "add" + documentReference.get());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "eROOD", e);
-                    }
-                });*/
-
-        /*textTitle = (EditText) findViewById(R.id.textView4);*/
-        /*textContent = (TextView) findViewById(R.id.textView6);*/
-
-       /* inputB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                Map<String, Object> user = new HashMap<>();
-                user.put("first", ((EditText) findViewById(R.id.editText)).getText().toString());
-                user.put("last","sibal");
-                user.put("born", 1815);
-                db.collection("users").add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
-                *//*db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
-                                Log.d(TAG, document.getId() + "=>" + document.getData());
-                            }
-                        }else{
-                            Log.w(TAG, "ERRO", task.getException());
-                        }
-                    }
-                });*//*
-               *//* Intent intent = new Intent(getApplicationContext(), basic.class);
-                startActivity(intent);*//*
-                startActivity(new Intent(getApplicationContext(), basic.class));
-                *//*Intent intent=new Intent(inputquestion_Activity.this, my.class);
-                startActivity(intent);*//*
-            }
-        });*/
     }
 
     @Override
@@ -233,11 +146,7 @@ public class inputquestion_Activity extends AppCompatActivity {
     }
 }
 class WriteInfo {
-    private String title;
-    private String grade;
-    private String subject;
-    private String contents;
-    private String publisher;
+    private String title, grade, subject, contents, publisher;
 
     public WriteInfo(String title, String grade, String subject, String contents, String publisher){
         this.title = title;
@@ -247,34 +156,18 @@ class WriteInfo {
         this.publisher = publisher;
     }
 
-    public String getTitle(){
-        return this.title;
-    }
-    public void setTitle(String title){
-        this.title = title;
-    }
-    public String getGrade(){
-        return this.grade;
-    }
-    public void setGrade(String grade){
-        this.grade = grade;
-    }
-    public String getSubject(){
-        return this.subject;
-    }
-    public void setSubject(String subject){
-        this.grade = subject;
-    }
-    public String getContents(){
-        return this.contents;
-    }
-    public void setContents(String contents){
-        this.contents = contents;
-    }
-    public String getPublisher(){
-        return this.publisher;
-    }
-    public void setPublisher(String publisher){
-        this.publisher = publisher;
-    }
+    public String getTitle(){ return this.title; }
+    public void setTitle(String title){ this.title = title; }
+
+    public String getGrade(){ return this.grade; }
+    public void setGrade(String grade){ this.grade = grade; }
+
+    public String getSubject(){ return this.subject; }
+    public void setSubject(String subject){ this.grade = subject; }
+
+    public String getContents(){ return this.contents; }
+    public void setContents(String contents){ this.contents = contents; }
+
+    public String getPublisher(){ return this.publisher; }
+    public void setPublisher(String publisher){ this.publisher = publisher; }
 }

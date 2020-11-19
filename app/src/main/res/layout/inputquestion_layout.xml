@@ -97,7 +97,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/textView"
+                android:id="@+id/edit_content"
                 android:layout_width="250dp"
                 android:layout_height="330dp"
                 android:layout_marginStart="5dp"
@@ -145,7 +145,6 @@
                     android:id="@+id/Freshman"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="1학년" />
 
                 <RadioButton

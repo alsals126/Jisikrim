@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +22,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
 
@@ -34,6 +43,9 @@ public class inputquestion_Activity extends AppCompatActivity {
     private Spinner spinner;
     private RadioGroup rg;
     Button inputB;
+ /*   private FirebaseDatabase database;
+    private DatabaseReference databaseReference;*/
+    private Uri filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +56,21 @@ public class inputquestion_Activity extends AppCompatActivity {
         spinner = findViewById(R.id.subjects);
         imageView = (ImageView) findViewById(R.id.imageView);
         inputB = (Button) findViewById(R.id.inputButton);
+
+      /*  database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
+        databaseReference = database.getReference("User");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // 파이어베이스 데이터베이스의 데이터를 받아오는 곳
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
 
         //라디오버튼
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -90,6 +117,7 @@ public class inputquestion_Activity extends AppCompatActivity {
 
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
+                filePath = data.getData();
                 try{
                     InputStream in = getContentResolver().openInputStream(data.getData());
                     Bitmap img = BitmapFactory.decodeStream(in);
@@ -143,6 +171,23 @@ public class inputquestion_Activity extends AppCompatActivity {
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://jisiklim.appspot.com/").child("images");
+        storageRef.putFile(filePath)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getApplicationContext(), "업로드 완료", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "업로드 실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 }
 class WriteInfo {

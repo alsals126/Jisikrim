@@ -143,42 +143,46 @@ public class inputquestion_Activity extends AppCompatActivity {
     private void ReadyUpload() {
         String textTitle = ((EditText) findViewById(R.id.editText)).getText().toString();
         RadioButton rd = (RadioButton)findViewById(rg.getCheckedRadioButtonId());
-        String grade = rd.getText().toString();
-        String subject = spinner.getSelectedItem().toString();
+        String grade = null;
+        String subject = null;
         String textContent = ((EditText) findViewById(R.id.edit_content)).getText().toString();
 
-
-        if (textTitle.length() > 0 && textContent.length() > 0) {
-            user = FirebaseAuth.getInstance().getCurrentUser();
-            WriteInfo writeInfo = new WriteInfo(textTitle, grade, subject, textContent, user.getUid());
-            uploader(writeInfo);
-        } else {
-            Toast.makeText(this, "회원정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+        if(rd != null) {
+            grade = rd.getText().toString();
+            subject = spinner.getSelectedItem().toString();
+            ((EditText) findViewById(R.id.edit_content)).setText(textContent.length()+"jgh");
+            if (textTitle.length() > 0 && textContent.length() > 0 && grade != null && subject != null && filePath != null) {
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                WriteInfo writeInfo = new WriteInfo(textTitle, grade, subject, textContent, user.getUid());
+                uploaderImage(writeInfo);
+            } else {
+                Toast.makeText(this, "모든 항목을 입력해주세요", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(this, "모든 항목을 입력해주세요", Toast.LENGTH_SHORT).show();
         }
     }
-    private void uploader(WriteInfo writeInfo){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("posts").add(writeInfo)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://jisiklim.appspot.com/").child("images");
+    private void uploaderImage(final WriteInfo writeInfo){
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference storageRef = storage.getReferenceFromUrl("gs://jisiklim.appspot.com/PostImage").child(filePath.getLastPathSegment());
         storageRef.putFile(filePath)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(getApplicationContext(), "업로드 완료", Toast.LENGTH_SHORT).show();
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                writeInfo.setImagepath(uri.toString());
+                                uploaderText(writeInfo);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                //이미지 로드 실패시
+                                Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -189,9 +193,28 @@ public class inputquestion_Activity extends AppCompatActivity {
                 });
 
     }
+    private void uploaderText(WriteInfo writeInfo){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("posts").add(writeInfo)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(), "업로드 완료", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+
+    }
 }
 class WriteInfo {
     private String title, grade, subject, contents, publisher;
+    private String getImagepath;
 
     public WriteInfo(String title, String grade, String subject, String contents, String publisher){
         this.title = title;
@@ -208,11 +231,14 @@ class WriteInfo {
     public void setGrade(String grade){ this.grade = grade; }
 
     public String getSubject(){ return this.subject; }
-    public void setSubject(String subject){ this.grade = subject; }
+    public void setSubject(String subject){ this.subject = subject; }
 
     public String getContents(){ return this.contents; }
     public void setContents(String contents){ this.contents = contents; }
 
     public String getPublisher(){ return this.publisher; }
     public void setPublisher(String publisher){ this.publisher = publisher; }
+
+    public String getImagepath(){ return this.getImagepath; }
+    public void setImagepath(String getImagepath){ this.getImagepath = getImagepath; }
 }

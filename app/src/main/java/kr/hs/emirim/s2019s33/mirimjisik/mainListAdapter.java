@@ -38,8 +38,8 @@ public class mainListAdapter extends RecyclerView.Adapter<mainListAdapter.ViewHo
         QuestionList item = mData.get(position) ;
 
         holder.icon.setImageDrawable(item.getDrawable()) ;
-        holder.title.setText(item.getName1()) ;
-        holder.desc.setText(item.getName2()) ;
+        holder.title.setText(item.getSol()) ;
+        holder.desc.setText(item.getTitle()) ;
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

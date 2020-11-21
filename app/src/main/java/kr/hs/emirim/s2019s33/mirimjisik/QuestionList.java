@@ -4,33 +4,30 @@ import android.graphics.drawable.Drawable;
 
 public class QuestionList {
     private Drawable drawable;
-    private String name1;
-    private String name2;
+    private String sol;
+    private String title;
 
     //생성자메소드
-    public QuestionList(String name1, String name2){
-        this.name1 = name1;
-        this.name2 = name2;
+    public QuestionList(Drawable drawable, String sol, String title){
+        this.drawable = drawable;
+        this.sol = sol;
+        this.title = title;
     }
 
     //getter & setter
     public Drawable getDrawable(){
         return this.drawable;
     }
-    public String getName1(){
-        return this.name1;
+    public String getSol(){
+        return this.sol;
     }
-    public String getName2(){
-        System.out.print("get" + this.name2);return this.name2;
-    }
+    public String getTitle(){return this.title; }
+
     public void setDrawable(Drawable drawable){
         this.drawable = drawable;
     }
-    public void setName1(String title){
-        this.name1 = name1;
+    public void setSol(String sol){
+        this.sol = sol;
     }
-    public void setName2(String desc){
-        System.out.print("set" + this.name2);
-        this.name2 = name2;
-    }
+    public void setTitle(String title){ this.title = title; }
 }

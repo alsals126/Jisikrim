@@ -8,12 +8,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import android.content.Intent;
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 //import android.widget.Button;
@@ -23,6 +37,8 @@ public class my extends Fragment {
     RecyclerView mRecyclerView = null ;
     QuestionListAdapter mAdapter = null ;
     ArrayList<QuestionList> mList = new ArrayList<QuestionList>();
+
+    private static final String TAG = "my";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +59,30 @@ public class my extends Fragment {
         RecyclerView recyclerView = v.findViewById(R.id.my_recycler_view) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())) ;
 
-        // 아이템 추가.
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("posts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            mList.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                addItem(ContextCompat.getDrawable(getContext(), R.drawable.deldel),
+                                        "Box", document.getData().get("title").toString());
+                                mAdapter.notifyDataSetChanged() ;
+                                System.out.println("잘까");
+                            }
+                            System.out.println("아웅 증말");
+                        }else{
+                            Log.d(TAG, "Error 시발 : ", task.getException());
+                        }
+                        System.out.println("왜 이래ㅠㅠ");
+                    }
+                });
+        System.out.println("아유융");
+
+      /*  // 아이템 추가.
         addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.deldel),
                 "Box", "Account Box Black 36dp") ;
         // 두 번째 아이템 추가.
@@ -53,22 +92,18 @@ public class my extends Fragment {
         addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.rogo),
                 "Ind", "Assignment Ind Black 36dp") ;
         addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.rogo),
-                "last", "난 몰랑!") ;
+                "last", "난 몰랑!") ;*/
 
-        mAdapter.notifyDataSetChanged() ;
+        /*mAdapter.notifyDataSetChanged() ;*/
 
         return v;
     }
-    public void plz(){
-
-    }
-    public void addItem(Drawable icon, String title, String desc) {
-        QuestionList item = new QuestionList(title, desc);
+    public void addItem(Drawable icon, String sol, String title) {
+        QuestionList item = new QuestionList(icon, sol, title);
 
         item.setDrawable(icon);
-        item.setName1(title);
-        System.out.print(item.getName1());
-        item.setName2(desc);
+        item.setSol(sol);
+        item.setTitle(title);
 
         mList.add(item);
     }

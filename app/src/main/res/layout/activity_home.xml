@@ -40,6 +40,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#C3C3C3"/>
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="530dp"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

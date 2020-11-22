@@ -2,25 +2,45 @@ package kr.hs.emirim.s2019s33.mirimjisik;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
-
+import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import java.util.ArrayList;
 
 public class home extends Fragment {
+    RecyclerView mRecyclerView = null ;
+    QuestionListAdapter mAdapter = null ;
+    ArrayList<QuestionList> mList = new ArrayList();
+
+    private static final String TAG = "home";
+    String grade;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
-
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_home, container, false);
 
-        Button inputQ = (Button)v.findViewById(R.id.inputquestion);
+        Button inputQ = v.findViewById(R.id.inputquestion);
         inputQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vi) {
@@ -28,86 +48,56 @@ public class home extends Fragment {
                 startActivity(intent);
             }
         });
+
+        mRecyclerView = v.findViewById(R.id.my_recycler_view) ;
+
+        // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
+        mAdapter = new QuestionListAdapter(mList) ;
+        mRecyclerView.setAdapter(mAdapter) ;
+
+        // 리사이클러뷰에 LinearLayoutManager 지정. (vertical)
+        RecyclerView recyclerView = v.findViewById(R.id.my_recycler_view) ;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())) ;
+
+        final Spinner spinner = v.findViewById(R.id.gradeSpinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                grade = spinner.getSelectedItem().toString();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("posts")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()) {
+                                    mList.clear();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        if (document.getData().get("grade").toString().equals(grade)) {
+                                            addItem(document.getData().get("imagepath").toString(),
+                                                    "[궁금증]", document.getData().get("title").toString());
+                                        }
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                }else{
+                                    Log.d(TAG, "Error(bring storedata-title): ", task.getException());
+                                }
+                            }
+                        });
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
         return v;
-
     }
-//    RecyclerView mRecyclerView = null ;
-//    QuestionListAdapter mAdapter = null ;
-//    ArrayList<QuestionList> mList = new ArrayList<QuestionList>();
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.main_layout);
+    public void addItem(String icon, String sol, String title) {
+        QuestionList item = new QuestionList(icon, sol, title);
 
-//        Button btnChatting=(Button)findViewById(R.id.btn_chatting);
-//        Button btnCategory=(Button)findViewById(R.id.btn_category);
-//        Button btnMy=(Button)findViewById(R.id.btn_my);
-//        Button inputQ = (Button) findViewById(R.id.inputquestion);
-//
-//        btnCategory.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mainviewActivity.this, category.class);
-//                startActivity(intent);
-//            }
-//        });
-//        btnChatting.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mainviewActivity.this, chatting.class);
-//                startActivity(intent);
-//            }
-//        });
-//        btnMy.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mainviewActivity.this, questionActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        inputQ.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mainviewActivity.this, inputquestion_Activity.class);
-//                startActivity(intent);
-//            }
-//        });
+        item.setDrawable(icon);
+        item.setSol(sol);
+        item.setTitle(title);
 
-//        mRecyclerView = findViewById(R.id.mainRecyclerview) ;
-//
-//        // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-//        mAdapter = new QuestionListAdapter(mList) ;   //mainListAdapter로 바꾸기
-//        mRecyclerView.setAdapter(mAdapter) ;
-//
-//        // 리사이클러뷰에 LinearLayoutManager 지정. (vertical)
-//        RecyclerView recyclerView = findViewById(R.id.mainRecyclerview) ;
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this)) ;
-//
-//        // 아이템 추가.
-//        addItem(ContextCompat.getDrawable(this, R.drawable.deldel),
-//                "Box", "Account Box Black 36dp") ;
-//        // 두 번째 아이템 추가.
-//        addItem(ContextCompat.getDrawable(this, R.drawable.deldel),
-//                "Circle", "Account Circle Black 36dp") ;
-//        // 세 번째 아이템 추가.
-//        addItem(ContextCompat.getDrawable(this, R.drawable.deldel),
-//                "Ind", "Assignment Ind Black 36dp") ;
-//        addItem(ContextCompat.getDrawable(this, R.drawable.deldel),
-//                "Ind", "Assignment Ind Black 36dp") ;
-//        addItem(ContextCompat.getDrawable(this, R.drawable.deldel),
-//                "Ind", "Assignment Ind Black 36dp") ;
-//
-//        mAdapter.notifyDataSetChanged() ;
-//    }
-//    public void addItem(Drawable icon, String title, String desc) {
-//        QuestionList item = new QuestionList();
-//
-//        item.setDrawable(icon);
-//        item.setName1(title);
-//        item.setName2(desc);
-//
-//        mList.add(item);
-//    }
-    //}
+        mList.add(item);
+    }
 }

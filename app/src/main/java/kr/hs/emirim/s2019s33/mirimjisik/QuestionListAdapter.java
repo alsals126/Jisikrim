@@ -6,23 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import java.util.ArrayList;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.ViewHolder>{
     private ArrayList<QuestionList> mData = null ;
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    QuestionListAdapter(ArrayList<QuestionList> list) {
-        mData = list ;
-    }
+    QuestionListAdapter(ArrayList<QuestionList> list) { mData = list ; }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
     @NonNull
@@ -46,10 +39,8 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         Glide.with(holder.itemView)
                 .load(item.getDrawable())
                 .into(holder.icon);
-/*        holder.icon.setImageDrawable(item.getDrawable()) ;*/
         holder.sol.setText(item.getSol()) ;
         holder.title.setText(item.getTitle()) ;
-        System.out.print("보여조");
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,9 +76,11 @@ public class my extends Fragment {
                         if(task.isSuccessful()) {
                             mList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                addItem(document.getData().get("imagepath").toString(),
-                                        "[궁금증]", document.getData().get("title").toString());
-                                mAdapter.notifyDataSetChanged() ;
+                                if(FirebaseAuth.getInstance().getCurrentUser().getUid().toString().equals(document.getData().get("publisher").toString())) {
+                                    addItem(document.getData().get("imagepath").toString(),
+                                            "[궁금증]", document.getData().get("title").toString());
+                                    mAdapter.notifyDataSetChanged();
+                                }
                             }
                         }else{
                             Log.d(TAG, "Error(bring storedata-title): ", task.getException());

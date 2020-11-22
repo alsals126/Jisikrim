@@ -150,7 +150,6 @@ public class inputquestion_Activity extends AppCompatActivity {
         if(rd != null) {
             grade = rd.getText().toString();
             subject = spinner.getSelectedItem().toString();
-            ((EditText) findViewById(R.id.edit_content)).setText(textContent.length()+"jgh");
             if (textTitle.length() > 0 && textContent.length() > 0 && grade != null && subject != null && filePath != null) {
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 WriteInfo writeInfo = new WriteInfo(textTitle, grade, subject, textContent, user.getUid());

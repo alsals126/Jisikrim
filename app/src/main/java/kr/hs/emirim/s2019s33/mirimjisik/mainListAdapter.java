@@ -37,7 +37,7 @@ public class mainListAdapter extends RecyclerView.Adapter<mainListAdapter.ViewHo
     public void onBindViewHolder(mainListAdapter.ViewHolder holder, int position) {
         QuestionList item = mData.get(position) ;
 
-        holder.icon.setImageDrawable(item.getDrawable()) ;
+/*        holder.icon.setImageDrawable(item.getDrawable()) ;*/
         holder.title.setText(item.getSol()) ;
         holder.desc.setText(item.getTitle()) ;
     }

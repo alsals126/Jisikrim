@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.ViewHolder>{
@@ -38,7 +43,10 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
 
         QuestionList item = mData.get(position) ;
 
-        holder.icon.setImageDrawable(item.getDrawable()) ;
+        Glide.with(holder.itemView)
+                .load(item.getDrawable())
+                .into(holder.icon);
+/*        holder.icon.setImageDrawable(item.getDrawable()) ;*/
         holder.sol.setText(item.getSol()) ;
         holder.title.setText(item.getTitle()) ;
         System.out.print("보여조");

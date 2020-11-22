@@ -10,14 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 //import android.content.Intent;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +32,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 //import android.widget.Button;
@@ -68,16 +75,13 @@ public class my extends Fragment {
                         if(task.isSuccessful()) {
                             mList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                addItem(ContextCompat.getDrawable(getContext(), R.drawable.deldel),
-                                        "Box", document.getData().get("title").toString());
+                                addItem(document.getData().get("imagepath").toString(),
+                                        "[궁금증]", document.getData().get("title").toString());
                                 mAdapter.notifyDataSetChanged() ;
-                                System.out.println("잘까");
                             }
-                            System.out.println("아웅 증말");
                         }else{
-                            Log.d(TAG, "Error 시발 : ", task.getException());
+                            Log.d(TAG, "Error(bring storedata-title): ", task.getException());
                         }
-                        System.out.println("왜 이래ㅠㅠ");
                     }
                 });
         System.out.println("아유융");
@@ -98,7 +102,7 @@ public class my extends Fragment {
 
         return v;
     }
-    public void addItem(Drawable icon, String sol, String title) {
+    public void addItem(String icon, String sol, String title) {
         QuestionList item = new QuestionList(icon, sol, title);
 
         item.setDrawable(icon);

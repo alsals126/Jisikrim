@@ -29,4 +29,23 @@
         <item>정보보안</item>
         <item>운영체제</item>
     </string-array>
+
+    <string-array name="allSubjects">
+        <item>c</item>
+        <item>정보처리관리</item>
+        <item>java</item>
+        <item>db</item>
+        <item>자료구조</item>
+        <item>C++</item>
+        <item>JSP</item>
+        <item>PHP</item>
+        <item>python</item>
+        <item>데이터베이스프로그래밍</item>
+        <item>서버구축 및 운영</item>
+        <item>뉴미디어콘텐츠프로그래밍</item>
+        <item>jsp응용</item>
+        <item>node.js</item>
+        <item>정보보안</item>
+        <item>운영체제</item>
+    </string-array>
 </resources>

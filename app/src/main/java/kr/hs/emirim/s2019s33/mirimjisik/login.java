@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
-public class login extends AppCompatActivity implements OnBackPressedListener {
+public class login extends AppCompatActivity{
     Button btnNew,btnLogin;
     EditText editE, editP;
     private FirebaseAuth firebaseAuth;

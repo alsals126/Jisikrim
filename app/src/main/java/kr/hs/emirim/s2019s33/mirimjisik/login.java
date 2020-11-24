@@ -1,5 +1,6 @@
 package kr.hs.emirim.s2019s33.mirimjisik;
 //홈 화면
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,6 @@ public class login extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         firebaseAuth=FirebaseAuth.getInstance();
         btnNew=findViewById(R.id.btn_new); //회원가입
@@ -53,13 +53,19 @@ public class login extends AppCompatActivity{
                 }else if(editP.getText().toString().matches("")){
                     Toast.makeText(login.this, "비밀번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 }else {
+                    final ProgressDialog mDialog = new ProgressDialog(login.this);
+                    mDialog.setMessage("로그인중입니다...");
+                    mDialog.show();
+
                     firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                mDialog.dismiss();
                                 Intent intent = new Intent(getApplicationContext(), basic.class);
                                 startActivity(intent);
                             } else {
+                                mDialog.dismiss();
                                 if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                     Toast.makeText(login.this, "비밀번호가 다릅니다.",Toast.LENGTH_LONG).show();
                                 }else if(task.getException() instanceof FirebaseAuthInvalidUserException){
@@ -74,6 +80,4 @@ public class login extends AppCompatActivity{
             }
         });
     }
-
-
 }

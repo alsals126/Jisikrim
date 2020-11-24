@@ -3,10 +3,6 @@ package kr.hs.emirim.s2019s33.mirimjisik;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.content.Intent;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,7 +56,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener{
                             mDialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(signup.this, "회원가입에 성공했습니다.",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(), basic.class));
+                            startActivity(new Intent(getApplicationContext(), login.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             // 에러종류 구분하기
@@ -70,8 +66,6 @@ public class signup extends AppCompatActivity implements View.OnClickListener{
                             }else{
                                 Toast.makeText(signup.this, "관리자에게 문의하세요",Toast.LENGTH_LONG).show();
                             }
-                            /*Toast.makeText(signup.this, "에러유형\n - 이미 등록된 이메일\n -암호 최소 6자리 이상\n - 서버에러",
-                                    Toast.LENGTH_SHORT).show();*/
                         }
                     }
                 });

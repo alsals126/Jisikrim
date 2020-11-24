@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,8 +58,10 @@ public class my extends Fragment {
                             pList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(document.getData().get("publisher").toString())) {
+                                    //간단 게시글
                                     addItem(document.getData().get("imagepath").toString(),
                                             "[궁금증]", document.getData().get("title").toString());
+                                    //게시글 전체
                                     addPost(document.getData().get("title").toString(),
                                             document.getData().get("imagepath").toString(),
                                             document.getData().get("contents").toString(),
@@ -68,6 +72,7 @@ public class my extends Fragment {
                                 }
                             }
                         }else{
+                            Toast.makeText(getActivity(), "관리자에게 문의하세요",Toast.LENGTH_LONG).show();
                             Log.d(TAG, "Error(bring storedata-title): ", task.getException());
                         }
                     }

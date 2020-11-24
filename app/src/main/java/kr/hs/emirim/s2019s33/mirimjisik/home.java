@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -76,8 +78,10 @@ public class home extends Fragment{
                                     pList.clear();
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         if (document.getData().get("grade").toString().equals(grade)) {
+                                            // 간단 게시글
                                             addItem(document.getData().get("imagepath").toString(),
                                                     "[궁금증]", document.getData().get("title").toString());
+                                            // 게시글 전체
                                             addPost(document.getData().get("title").toString(),
                                                     document.getData().get("imagepath").toString(),
                                                     document.getData().get("contents").toString(),
@@ -88,6 +92,7 @@ public class home extends Fragment{
                                         mAdapter.notifyDataSetChanged();
                                     }
                                 }else{
+                                    Toast.makeText(getActivity(), "관리자에게 문의하세요",Toast.LENGTH_LONG).show();
                                     Log.d(TAG, "Error(bring storedata-title): ", task.getException());
                                 }
                             }

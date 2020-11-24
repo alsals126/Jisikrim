@@ -1,27 +1,24 @@
 package kr.hs.emirim.s2019s33.mirimjisik;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 
 public class search extends Fragment {
@@ -70,8 +67,10 @@ public class search extends Fragment {
                                     pList.clear();
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         if (document.getData().get("subject").toString().equals(subject)) {
+                                            // 간단 게시글
                                             addItem(document.getData().get("imagepath").toString(),
                                                     "[궁금증]", document.getData().get("title").toString());
+                                            // 게시글 전체
                                             addPost(document.getData().get("title").toString(),
                                                     document.getData().get("imagepath").toString(),
                                                     document.getData().get("contents").toString(),
@@ -82,6 +81,7 @@ public class search extends Fragment {
                                         mAdapter.notifyDataSetChanged();
                                     }
                                 }else{
+                                    Toast.makeText(getActivity(), "관리자에게 문의하세요",Toast.LENGTH_LONG).show();
                                     Log.d(TAG, "Error(bring storedata-title): ", task.getException());
                                 }
                             }
@@ -114,5 +114,4 @@ public class search extends Fragment {
 
         pList.add(item);
     }
-
 }

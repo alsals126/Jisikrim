@@ -2,6 +2,8 @@ package kr.hs.emirim.s2019s33.mirimjisik;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,22 +19,15 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.InputStream;
 
 public class inputquestion_Activity extends AppCompatActivity {
@@ -43,8 +38,6 @@ public class inputquestion_Activity extends AppCompatActivity {
     private Spinner spinner;
     private RadioGroup rg;
     Button inputB;
- /*   private FirebaseDatabase database;
-    private DatabaseReference databaseReference;*/
     private Uri filePath;
 
     @Override
@@ -56,21 +49,6 @@ public class inputquestion_Activity extends AppCompatActivity {
         spinner = findViewById(R.id.subjects);
         imageView = (ImageView) findViewById(R.id.imageView);
         inputB = (Button) findViewById(R.id.inputButton);
-
-      /*  database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
-        databaseReference = database.getReference("User");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // 파이어베이스 데이터베이스의 데이터를 받아오는 곳
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
 
         //라디오버튼
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -107,7 +85,6 @@ public class inputquestion_Activity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
-
         inputB.setOnClickListener(onClickListener);
     }
 
@@ -143,8 +120,7 @@ public class inputquestion_Activity extends AppCompatActivity {
     private void ReadyUpload() {
         String textTitle = ((EditText) findViewById(R.id.editText)).getText().toString();
         RadioButton rd = (RadioButton)findViewById(rg.getCheckedRadioButtonId());
-        String grade = null;
-        String subject = null;
+        String grade,subject;
         String textContent = ((EditText) findViewById(R.id.edit_content)).getText().toString();
 
         if(rd != null) {
@@ -153,6 +129,11 @@ public class inputquestion_Activity extends AppCompatActivity {
             if (textTitle.length() > 0 && textContent.length() > 0 && grade != null && subject != null && filePath != null) {
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 WriteInfo writeInfo = new WriteInfo(textTitle, grade, subject, textContent, user.getUid());
+
+                final ProgressDialog mDialog = new ProgressDialog(inputquestion_Activity.this);
+                mDialog.setMessage("업로드중입니다...");
+                mDialog.show();
+
                 uploaderImage(writeInfo);
             } else {
                 Toast.makeText(this, "모든 항목을 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -178,7 +159,7 @@ public class inputquestion_Activity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 //이미지 로드 실패시
-                                Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -207,10 +188,10 @@ public class inputquestion_Activity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "업로드 실패", Toast.LENGTH_SHORT).show();
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
-
     }
 }
 class WriteInfo {

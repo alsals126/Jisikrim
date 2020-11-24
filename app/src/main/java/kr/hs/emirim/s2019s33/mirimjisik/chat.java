@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class chat extends Fragment {
     RecyclerView mRecyclerView = null ;
-    charadapter mAdapter = null ;
+    chatadapter mAdapter = null ;
     ArrayList<chatitem> mList = new ArrayList<chatitem>();
 
     @Override
@@ -30,7 +30,7 @@ public class chat extends Fragment {
         mRecyclerView = v.findViewById(R.id.my_recycler_view2) ;
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        mAdapter = new charadapter(mList) ;
+        mAdapter = new chatadapter(mList) ;
         mRecyclerView.setAdapter(mAdapter) ;
 
         // 리사이클러뷰에 LinearLayoutManager 지정. (vertical)

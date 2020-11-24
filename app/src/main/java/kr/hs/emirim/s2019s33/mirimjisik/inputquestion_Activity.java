@@ -199,6 +199,8 @@ public class inputquestion_Activity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getApplicationContext(), "업로드 완료", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), basic.class);
+                        startActivity(intent);
                         Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                     }
                 })

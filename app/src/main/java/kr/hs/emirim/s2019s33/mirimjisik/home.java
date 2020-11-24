@@ -21,10 +21,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
-public class home extends Fragment {
+public class home extends Fragment{
     RecyclerView mRecyclerView = null ;
     QuestionListAdapter mAdapter = null ;
     ArrayList<QuestionList> mList = new ArrayList();
+    ArrayList<PostList> pList = new ArrayList();
 
     private static final String TAG = "home";
     String grade;
@@ -52,7 +53,7 @@ public class home extends Fragment {
         mRecyclerView = v.findViewById(R.id.my_recycler_view) ;
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        mAdapter = new QuestionListAdapter(mList) ;
+        mAdapter = new QuestionListAdapter(mList, pList) ;
         mRecyclerView.setAdapter(mAdapter) ;
 
         // 리사이클러뷰에 LinearLayoutManager 지정. (vertical)
@@ -72,10 +73,17 @@ public class home extends Fragment {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if(task.isSuccessful()) {
                                     mList.clear();
+                                    pList.clear();
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         if (document.getData().get("grade").toString().equals(grade)) {
                                             addItem(document.getData().get("imagepath").toString(),
                                                     "[궁금증]", document.getData().get("title").toString());
+                                            addPost(document.getData().get("title").toString(),
+                                                    document.getData().get("imagepath").toString(),
+                                                    document.getData().get("contents").toString(),
+                                                    document.getData().get("grade").toString(),
+                                                    document.getData().get("publisher").toString(),
+                                                    document.getData().get("subject").toString());
                                         }
                                         mAdapter.notifyDataSetChanged();
                                     }
@@ -91,6 +99,8 @@ public class home extends Fragment {
 
         return v;
     }
+
+
     public void addItem(String icon, String sol, String title) {
         QuestionList item = new QuestionList(icon, sol, title);
 
@@ -99,5 +109,17 @@ public class home extends Fragment {
         item.setTitle(title);
 
         mList.add(item);
+    }
+    public void addPost(String title, String image, String contents, String grade, String publisher, String subject) {
+        PostList item = new PostList(title, image, contents, grade, publisher, subject);
+
+        item.setTitle(title);
+        item.setImage(image);
+        item.setContents(contents);
+        item.setGrade(grade);
+        item.setPublisher(publisher);
+        item.setSubject(subject);
+
+        pList.add(item);
     }
 }

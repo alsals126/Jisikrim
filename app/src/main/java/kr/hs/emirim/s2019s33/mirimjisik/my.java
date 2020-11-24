@@ -22,6 +22,7 @@ public class my extends Fragment {
     RecyclerView mRecyclerView = null ;
     QuestionListAdapter mAdapter = null ;
     ArrayList<QuestionList> mList = new ArrayList();
+    ArrayList<PostList> pList = new ArrayList();
 
     private static final String TAG = "my";
 
@@ -37,7 +38,7 @@ public class my extends Fragment {
         mRecyclerView = v.findViewById(R.id.my_recycler_view) ;
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        mAdapter = new QuestionListAdapter(mList) ;
+        mAdapter = new QuestionListAdapter(mList, pList) ;
         mRecyclerView.setAdapter(mAdapter) ;
 
         // 리사이클러뷰에 LinearLayoutManager 지정. (vertical)
@@ -52,10 +53,17 @@ public class my extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             mList.clear();
+                            pList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(document.getData().get("publisher").toString())) {
                                     addItem(document.getData().get("imagepath").toString(),
                                             "[궁금증]", document.getData().get("title").toString());
+                                    addPost(document.getData().get("title").toString(),
+                                            document.getData().get("imagepath").toString(),
+                                            document.getData().get("contents").toString(),
+                                            document.getData().get("grade").toString(),
+                                            document.getData().get("publisher").toString(),
+                                            document.getData().get("subject").toString());
                                     mAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -74,5 +82,17 @@ public class my extends Fragment {
         item.setTitle(title);
 
         mList.add(item);
+    }
+    public void addPost(String title, String image, String contents, String grade, String publisher, String subject) {
+        PostList item = new PostList(title, image, contents, grade, publisher, subject);
+
+        item.setTitle(title);
+        item.setImage(image);
+        item.setContents(contents);
+        item.setGrade(grade);
+        item.setPublisher(publisher);
+        item.setSubject(subject);
+
+        pList.add(item);
     }
 }

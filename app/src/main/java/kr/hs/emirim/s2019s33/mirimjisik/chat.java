@@ -1,111 +1,125 @@
 package kr.hs.emirim.s2019s33.mirimjisik;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class chat extends Fragment {
-    RecyclerView mRecyclerView = null ;
-    chatadapter mAdapter = null ;
-    ArrayList<chatitem> mList = new ArrayList<chatitem>();
+
+    private String CHAT_NAME;
+    private String USER_NAME;
+
+    private ListView chat_view;
+    private EditText chat_edit;
+    private Button chat_send;
+
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_chat, container, false);
 
-        mRecyclerView = v.findViewById(R.id.my_recycler_view2) ;
+        // 위젯 ID 참조
+        chat_view = (ListView) v.findViewById(R.id.chat_view);
+        chat_edit = (EditText) v.findViewById(R.id.chat_edit);
+        chat_send = (Button) v.findViewById(R.id.chat_sent);
 
-        // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        mAdapter = new chatadapter(mList) ;
-        mRecyclerView.setAdapter(mAdapter) ;
+        // 로그인 화면에서 받아온 채팅방 이름, 유저 이름 저장
+        Intent intent = getActivity().getIntent();
+        CHAT_NAME = intent.getStringExtra("chatName");
+        USER_NAME = intent.getStringExtra("userName");
 
-        // 리사이클러뷰에 LinearLayoutManager 지정. (vertical)
-        RecyclerView recyclerView = v.findViewById(R.id.my_recycler_view2) ;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())) ;
+        // 채팅 방 입장
+        openChat(CHAT_NAME);
 
-        // 아이템 추가.
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
-        addItem("Box", "Account Box Black 36dp") ;
+        // 메시지 전송 버튼에 대한 클릭 리스너 지정
+        chat_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chat_edit.getText().toString().equals(""))
+                    return;
 
+                ChatDTO chat = new ChatDTO(USER_NAME, chat_edit.getText().toString()); //ChatDTO를 이용하여 데이터를 묶는다.
+                databaseReference.child("chat").child(CHAT_NAME).push().setValue(chat); // 데이터 푸쉬
+                chat_edit.setText(""); //입력창 초기화
 
-        /*// 두 번째 아이템 추가.
-        addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.deldel),
-                "Circle", "Account Circle Black 36dp") ;
-        // 세 번째 아이템 추가.
-        addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.rogo),
-                "Ind", "Assignment Ind Black 36dp") ;
-        addItem(ContextCompat.getDrawable(this.getContext(), R.drawable.rogo),
-                "last", "난 몰랑!") ;*/
-
-        mAdapter.notifyDataSetChanged() ;
+            }
+        });
 
         return v;
     }
-    public void addItem(String title, String desc) {
-        chatitem item = new chatitem(title, desc);
 
-        item.setName(title);
-        System.out.print(item.getName());
-        item.setText(desc);
-
-        mList.add(item);
+    private void addMessage(DataSnapshot dataSnapshot, ArrayAdapter<String> adapter) {
+        ChatDTO chatDTO = dataSnapshot.getValue(ChatDTO.class);
+        adapter.add(chatDTO.getUserName() + " : " + chatDTO.getMessage());
     }
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.chatting);
-//
-//        Button btnMain=(Button)findViewById(R.id.btn_main);
-//        Button btnCategory=(Button)findViewById(R.id.btn_category);
-//        Button btnMy=(Button)findViewById(R.id.btn_my);
-//
-//        btnMain.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(chatting.this, mainviewActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        btnCategory.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(chatting.this, category.class);
-//                startActivity(intent);
-//            }
-//        });
-//        btnMy.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(chatting.this, questionActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
+    private void removeMessage(DataSnapshot dataSnapshot, ArrayAdapter<String> adapter) {
+        ChatDTO chatDTO = dataSnapshot.getValue(ChatDTO.class);
+        adapter.remove(chatDTO.getUserName() + " : " + chatDTO.getMessage());
+    }
+
+    private void openChat(String chatName) {
+        // 리스트 어댑터 생성 및 세팅
+        final ArrayAdapter<String> adapter
+
+                = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1);
+        chat_view.setAdapter(adapter);
+
+        // 데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
+        databaseReference.child("chat").child(chatName).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                addMessage(dataSnapshot, adapter);
+                Log.e("LOG", "s:"+s);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                removeMessage(dataSnapshot, adapter);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }

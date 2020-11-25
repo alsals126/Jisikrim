@@ -14,7 +14,7 @@ public class basic extends AppCompatActivity {
     private home homeLayout=new home(); //홈
     private my myLayout=new my(); //my
     private search search =new search(); //카테고리
-    private chat chat =new chat(); //채팅
+    private startChat chat =new startChat(); //채팅
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
